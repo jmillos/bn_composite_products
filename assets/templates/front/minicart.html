@@ -1,0 +1,91 @@
+<div class="jg-minicart">
+	<div ng-if="buildCtrl.cntCompositionsInCart > 0">
+	    <table class="table basic-items">
+	        <thead>
+	            <tr>
+	                <th>Pedido</th>
+	                <th class="text-center">Cantidad</th>
+	                <th class="text-right">Precio</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	            <tr ng-repeat="(key, component) in buildCtrl.cart.basicItems">
+	                <td class="item-image">
+	                	<div class="item">
+	                		<img class="img-responsive" ng-src="{{ vm.getImage(component) }}" alt="{{ component.name }}">
+	                    	<div class="bons-label" ng-bind="component.name | limitTo:10" title="{{component.name}}"></div>
+	                	</div>
+	                </td>
+	                <td class="text-center">
+	                    <span class="qty" ng-bind="component.qtyOrder"></span>
+	                </td>
+	                <td class="price text-right">
+	                    $ <span ng-bind="component.price"></span>
+	                </td>
+	            </tr>
+	        </tbody>
+	    </table>
+	    <table class="table additional-items">
+	        <thead>
+	            <tr class="sub-header">
+	                <th class="text-center" colspan="4">Adicionales</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	            <tr ng-repeat="(key, composition) in buildCtrl.cart.additionalItems" ng-if="buildCtrl.cntCompositionsAddInCart > 0">
+	                <td class="table-inside" colspan="4">
+	                    <table class="table">
+	                        <thead>
+					            <tr ng-if="vm.isFirstItem(key)">
+					                <th width="25%">Adición</th>
+					                <th width="25%" class="text-center">Cantidad</th>
+					                <th width="25%" class="text-right">Precio</th>
+					                <th width="25%" class="text-center">Eliminar</th>
+					            </tr>
+	                            <tr>
+	                            	<td colspan="4">
+		                            	<h2 ng-bind="vm.getCompositionName(key)" class="entry-title"></h2>
+		                            </td>
+	                            </tr>
+	                        </thead>
+	                        <tbody>
+	                            <tr class="bons-fade with-leave" ng-repeat="(keyComp, component) in composition">
+					                <td width="25%" class="item-image">
+					                	<div class="item">
+					                		<img class="img-responsive" ng-src="{{ vm.getImage(component) }}" alt="{{ component.name }}">
+					                    	<div class="bons-label" ng-bind="component.name | limitTo:10" title="{{component.name}}"></div>
+					                	</div>
+					                </td>
+					                <td class="text-center">
+					                    <span class="qty" ng-bind="component.qtyOrder"></span>
+	                                    <!-- <input ng-model="component.qtyOrder" type="number"> -->
+					                </td>
+					                <td class="price text-right">
+					                    $ <span ng-bind="component.price"></span>
+					                </td>
+	                                <td width="25%" class="btn-remove text-center">
+	                                	<a ng-click="vm.removeItem(component, key)" href="" class="btn">
+											<i class="glyphicon glyphicon-remove-sign"></i>
+	                                	</a>
+	                                </td>
+	                            </tr>
+	                        </tbody>
+	                    </table>
+	                </td>
+	            </tr>
+	            <tr ng-if="buildCtrl.cntCompositionsAddInCart <= 0">
+	            	<td colspan="4">
+						<div class="cart-empty">
+							No tiene adiciones en el carrito de compras.
+						</div>
+	            	</td>
+	            </tr>
+	        </tbody>
+	    </table>
+
+	    <button type="submit" class="ng-submit-minicart bons-animate-bg btn btn-warning">Enviar Orden/Llenar Solicitud</button>
+	</div>
+	<div class="cart-empty" ng-if="buildCtrl.cntCompositionsInCart <= 0">
+		No ha agregado items al carrito de compras.
+	</div>
+</div>

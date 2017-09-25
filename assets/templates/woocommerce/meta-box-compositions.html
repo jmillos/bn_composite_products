@@ -1,0 +1,97 @@
+<div class="meta-box-composition" ng-form="metaboxComposition">
+	<md-autocomplete flex="grow" md-selected-item="selectedItem" md-search-text-change="searchTextChange(searchText)" md-search-text="searchText" md-selected-item-change="addComposition(item)" md-items="item in querySearch(searchText)" md-item-text="item.name" md-min-length="1" placeholder="Buscar una Composición para adicionar al Producto" md-menu-class="autocomplete-compositions-products">
+        <md-item-template>
+            <div layout="row">
+                <div flex="nogrow">
+                    <md-icon class="dashicons dashicons-plus-alt"></md-icon>
+                </div>
+                <div layout="column" style="margin-left: 10px;">
+                    <div flex ng-bind-html="item.name"></div>
+                </div>
+            </div>
+        </md-item-template>
+        <md-not-found>
+            No hay composiciones que coincidan con "{{searchText}}".
+            <!-- <a ng-click="ctrl.newState(ctrl.searchText)">Create a new one!</a> -->
+        </md-not-found>
+    </md-autocomplete>
+
+
+    <div layout-gt-sm="row" layout-wrap>
+        <md-list flex>
+            <md-subheader class="md-no-sticky" ng-show="compositions.length">
+                <div class="bons-toolbar" layout="row">
+                    <div class="label" flex="auto">Composiciones Agregadas</div>
+                    <div flex="nogrow" style="overflow: hidden;">
+                        <div layout="row">
+                            <!-- <div layout-align="start center"> -->
+                            <input ng-show="showFilterComposition" class="input-s1 animation-slide" flex="auto" type="text" ng-model="filterCompositions" placeholder="Filtrar Composición...">
+                            <!-- </div> -->
+                            <!-- <div> -->
+                            <!-- <md-icon class="dashicons dashicons-filter"></md-icon> -->
+                            <md-button flex="nogrow" class="md-secondary md-mini md-icon-button" ng-click="toggleFilterCompositions()">
+                                <md-icon class="dashicons dashicons-filter"></md-icon>
+                            </md-button>
+                            <!-- </div> -->
+                        </div>
+                    </div>
+                </div>
+            </md-subheader>
+            <md-list-item class="md-3-line md-long-text" ng-repeat="(key, composition) in compositions | filter:filterCompositions" ng-click="null" ng-class="{open: composition.open}">
+                <!-- <img ng-src="{{item.face}}?{{$index}}" class="md-avatar" alt="{{item.who}}" /> -->
+                <div class="md-list-item-text">
+                    <div layout="row">
+                        <div flex>
+                            <md-input-container class="md-block">
+                                <label>Nombre</label>
+                                <input required name="compositionName_{{key}}" ng-model="composition.name">
+                                <div ng-messages="metaboxComposition['compositionName_' + key].$error">
+                                    <div ng-messages-include="error-messages"></div>
+                                </div>
+                            </md-input-container>
+                            <!-- <div class="alert alert-error" ng-show="validateMetabox(key)">Hay campos invalidos en esta composición!</div> -->
+                            <!-- <p>{{ composition.ref }}</p> -->
+                        </div>
+                        <div flex="nogrow" flex-offset="5">
+                            <md-switch ng-model="composition.isAdditional" aria-label="¿Adicional?">¿Adicional?</md-switch>
+                        </div>
+                        <!-- <md-button ng-click="composition.open = !composition.open" class="md-fab md-mini md-primary" flex="nogrow">
+                            <md-icon class="dashicons" ng-class="{'dashicons-arrow-down-alt': !composition.open, 'dashicons-arrow-up-alt': composition.open}"></md-icon>
+                        </md-button> -->
+                        <md-button ng-click="deleteComposition(composition)" class="md-fab md-mini md-accent" flex="nogrow" flex-offset="5">
+                            <md-icon class="dashicons dashicons-trash"></md-icon>
+                        </md-button>
+                    </div>
+                    <!-- <div layout="row" ng-show="composition.open">
+                        <md-input-container flex="50">
+                            <label>Nombre</label>
+                            <input required name="compositionName_{{key}}" ng-model="composition.name">
+                            <div ng-messages="metaboxComposition['compositionName_' + key].$error">
+                                <div ng-messages-include="error-messages"></div>
+                            </div>
+                        </md-input-container>
+                        
+                        <md-input-container flex="50">
+                            <label>Inc. Precio en adición</label>
+                            <input required name="compositionIncrementPrice_{{key}}" ng-model="composition.incrementPrice">
+                            <div ng-messages="metaboxComposition['compositionIncrementPrice_' + key].$error" role="alert">
+                                <div ng-messages-include="error-messages"></div>
+                            </div>
+                        </md-input-container>
+                    </div> -->
+                </div>
+            </md-list-item>
+        </md-list>
+    </div>
+    <!-- <pre>{{ metaboxComponents | json }}</pre> -->
+    <input type="hidden" name="wcBonsterCompositions" value="{{compositions}}">
+    <script type="text/ng-template" id="error-messages">
+        <div ng-message="required">Campo requerido.</div>
+        <!-- <div ng-message="minlength">This field is too short</div> -->
+        <!-- <div ng-message="md-maxlength">The description must be less than 30 characters long.</div> -->
+    </script>
+
+	<!-- <div class="options_group">
+		<p class="form-field">HOLA JJ</p>
+	</div> -->
+</div>

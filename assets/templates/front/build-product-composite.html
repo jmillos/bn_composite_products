@@ -1,0 +1,85 @@
+<div class="build-product-composite">
+    <div class="topnav" bb-sticky>
+        <div class="info-cart">
+            <div class="col baseprice">
+                <span class="bons-label">Pedido</span>
+                <span class="value">$ <span ng-bind="vm.cart.basePrice"></span></span>
+            </div>
+            <div class="col addprice">
+                <span class="bons-label">Adicionales</span>
+                <span class="value">$ <span ng-bind="vm.cart.additionalPrice"></span></span>
+            </div>
+            <div class="col total">
+                <span class="bons-label">Total</span>
+                <span class="value">$ <span ng-bind="vm.cart.orderTotal"></span></span>
+            </div>
+            <div class="col btn-minicart">
+                <a ng-click="showMinicart = !showMinicart" href="" class="btn-toggle-minicart">
+                    <span ng-bind="showMinicart ? 'Cerrar':'Abrir'"></span> Carrito <i class="glyphicon" ng-class="{'glyphicon-chevron-down': !showMinicart, 'glyphicon-chevron-up': showMinicart}"></i>
+                </a>
+            </div>
+        </div>
+        <minicart ng-if="showMinicart" class="jg-woo-minicart bons-fade with-leave"></minicart>
+        <div class="nav-cart">
+            <!-- <div class="responsive-nav visible-xs-block">
+				<ng-include src="'templates/front/_part-menu-selection.html'" scope="" onload=""></ng-include>
+			</div> -->
+            <!-- <div class="col step">
+				Paso <span ng-bind="vm.step+1"></span> de <span ng-bind="vm.compositionsBase.length"></span> <i class="glyphicon glyphicon-chevron-right"></i> <span ng-bind="vm.compositionActive.name | limitTo:10" title="{{ vm.compositionActive.name }}"></span>
+			</div>
+			<div class="col navmenu">
+				<ng-include src="'templates/front/_part-menu-selection.html'" scope="" onload=""></ng-include>
+			</div> -->
+            <ul class="wrap-btns">
+            	<li class="step">
+            		Paso <span ng-bind="vm.step+1"></span> de <span ng-bind="vm.compositionsBase.length"></span> <i class="glyphicon glyphicon-chevron-right"></i> <span ng-bind="vm.compositionActive.name | limitTo:10" title="{{ vm.compositionActive.name }}"></span>
+            	</li>
+                <li class="dropdown-selected" hide-on-out-click="showMenuSelected">
+                    <a href="" class="menu-selected bons-fade" ng-click="showMenuSelected = !showMenuSelected">
+						Tú selección <i class="glyphicon glyphicon-chevron-down"></i>
+					</a>
+                    <ul class="jg-dropdown bons-fade with-leave" ng-if="showMenuSelected && vm.cntCompositionsInCart > 0">
+                        <li ng-repeat="item in vm.compositionsBase" ng-class="{selected: item==vm.compositionActive}" ng-if="vm.isCompositionSelected(item)">
+                            <a href="" ng-bind="item.name" ng-click="vm.goStep(item)"></a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="next" ng-if="vm.compositionNext && !vm.isReadyForOrder">
+                    <a href="" class="bons-fade with-leave" ng-click="vm.nextStep()">
+                        <span ng-bind="vm.compositionNext.name"></span> <i class="glyphicon glyphicon-chevron-right"></i>
+                    </a>
+                </li>
+                <li ng-if="vm.isReadyForOrder" class="additions dropdown-selected" hide-on-out-click="showMenuAdditional">
+                    <a href="" class="menu-selected bons-fade" ng-click="showMenuAdditional = !showMenuAdditional">
+                        <i class="glyphicon glyphicon-plus-sign"></i> Adiciones <i class="glyphicon glyphicon-chevron-down"></i>
+                    </a>
+                    <ul class="jg-dropdown bons-fade with-leave" ng-if="showMenuAdditional">
+                        <li ng-repeat="item in vm.compositionsAdditional" ng-class="{selected: item==vm.compositionActive}">
+                            <a href="" ng-bind="item.name" ng-click="vm.goStep(item)"></a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="confirm" ng-show="vm.isReadyForOrder">
+                    <a href="" class="bons-fade with-leave" ng-click="showMinicart = true">
+                        <span>Confirmar Pedido</span> <i class="glyphicon glyphicon-chevron-right"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="composition-active">
+        <div class="row">
+            <div class="component col-md-3 col-sm-4 col-xs-6 bons-fade" ng-repeat="component in vm.compositionActive.components" ng-class="{selected: component.selected, 'without-shadow': vm.compositionActive.isAdditional}">
+                <div class="wrap-img">
+                    <img ng-click="vm.selectComponent(component)" class="img-responsive" ng-src="{{ component.img[0] }}" alt="{{ component.name }}">
+                    <i ng-if="component.selected && !vm.compositionActive.isAdditional" class="check glyphicon glyphicon-check bons-fade"></i>
+                    <i ng-if="component.selected && vm.compositionActive.isAdditional" class="check-additional glyphicon glyphicon-ok-sign bons-fade"></i>
+                    <input ng-if="vm.compositionActive.isAdditional && component.selected" ng-model="component.qtyOrder" ng-change="vm.changeQtyOrder(component)" ng-click="return;" class="qty-order bons-fade with-leave" type="number" min="1">
+                </div>
+                <div ng-click="vm.selectComponent(component)" class="name" ng-bind="component.name" title="{{ component.name }}"></div>
+            </div>
+        </div>
+    </div>
+    <!-- <pre>{{ vm.cart | json:4 }}</pre> -->
+    <input name="bons_data_order" type="hidden" value="{{ vm.cart }}">
+</div>

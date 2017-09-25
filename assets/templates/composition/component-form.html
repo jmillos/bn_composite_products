@@ -1,0 +1,96 @@
+<div class="metabox-components" ng-form="metaboxComponent">
+    <md-autocomplete flex="grow" md-selected-item="selectedItem" md-search-text-change="searchTextChange(searchText)" md-search-text="searchText" md-selected-item-change="addComponent(item)" md-items="item in querySearch(searchText)" md-item-text="item.name" md-min-length="1" placeholder="Buscar un producto para adicionar a la composición" md-menu-class="autocomplete-compositions-products">
+        <md-item-template>
+            <div layout="row">
+                <div flex="nogrow">
+                    <md-icon class="dashicons dashicons-plus-alt"></md-icon>
+                </div>
+                <div layout="column" style="margin-left: 10px;">
+                    <div flex ng-bind-html="item.name"></div>
+                </div>
+            </div>
+        </md-item-template>
+        <md-not-found>
+            No hay productos que coincidan con "{{searchText}}".
+            <!-- <a ng-click="ctrl.newState(ctrl.searchText)">Create a new one!</a> -->
+        </md-not-found>
+    </md-autocomplete>
+    <div layout-gt-sm="row" layout-wrap>
+        <md-list flex>
+            <md-subheader class="md-no-sticky" ng-show="components.length">
+                <div class="bons-toolbar" layout="row">
+                    <div class="label" flex="auto">Componentes Agregados</div>
+                    <div flex="nogrow" style="overflow: hidden;">
+                        <div layout="row">
+                            <!-- <div layout-align="start center"> -->
+                            <input ng-show="showFilterComponent" class="input-s1 animation-slide" flex="auto" type="text" ng-model="filterComponents" placeholder="Filtrar Componente...">
+                            <!-- </div> -->
+                            <!-- <div> -->
+                            <!-- <md-icon class="dashicons dashicons-filter"></md-icon> -->
+                            <md-button flex="nogrow" class="md-secondary md-mini md-icon-button" ng-click="toggleFilterComponents()">
+                                <md-icon class="dashicons dashicons-filter"></md-icon>
+                            </md-button>
+                            <!-- </div> -->
+                        </div>
+                    </div>
+                </div>
+            </md-subheader>
+            <md-list-item class="md-3-line md-long-text" ng-repeat="(key, component) in components | filter:filterComponents" ng-click="null" ng-class="{open: component.open}">
+                <!-- <img ng-src="{{item.face}}?{{$index}}" class="md-avatar" alt="{{item.who}}" /> -->
+                <div class="md-list-item-text">
+                    <div layout="row">
+                        <div flex="auto">
+                            <h3>
+    			            	<span>
+    			            		{{ component.name }}
+    			            	</span>
+    			            	<!-- <button type="button" class="remove_row button">Eliminar</button> -->
+    			            </h3>
+                            <div class="alert alert-error" ng-show="validateMetabox(key)">Hay campos invalidos en este componente!</div>
+                            <p>{{ component.ref }}</p>
+                        </div>
+                        <md-button ng-click="component.open = !component.open" class="md-fab md-mini md-primary" flex="nogrow">
+                            <md-icon class="dashicons" ng-class="{'dashicons-arrow-down-alt': !component.open, 'dashicons-arrow-up-alt': component.open}"></md-icon>
+                        </md-button>
+                        <md-button ng-click="deleteComponent(component)" class="md-fab md-mini md-accent" flex="nogrow">
+                            <md-icon class="dashicons dashicons-trash"></md-icon>
+                        </md-button>
+                    </div>
+                    <div layout="row" ng-show="component.open">
+                        <md-input-container flex="33">
+                            <label>Nombre</label>
+                            <input required name="componentName_{{key}}" ng-model="component.name">
+                            <div ng-messages="metaboxComponent['componentName_' + key].$error">
+                                <div ng-messages-include="error-messages"></div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="33">
+                            <md-tooltip md-direction="top">
+                                Cantidad en la unidad de medida predeterminada del Producto
+                            </md-tooltip>
+                            <label>Cantidad</label>
+                            <input required name="componentQty_{{key}}" ng-model="component.qty" role="alert">
+                            <div ng-messages="metaboxComponent['componentQty_' + key].$error">
+                                <div ng-messages-include="error-messages"></div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container flex="33">
+                            <label>Inc. Precio en adición</label>
+                            <input required name="componentIncrementPrice_{{key}}" ng-model="component.incrementPrice">
+                            <div ng-messages="metaboxComponent['componentIncrementPrice_' + key].$error" role="alert">
+                                <div ng-messages-include="error-messages"></div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+            </md-list-item>
+        </md-list>
+    </div>
+    <!-- <pre>{{ metaboxComponents | json }}</pre> -->
+    <input type="hidden" name="wcBonsterComponents" value="{{components}}">
+    <script type="text/ng-template" id="error-messages">
+        <div ng-message="required">Campo requerido.</div>
+        <!-- <div ng-message="minlength">This field is too short</div> -->
+        <!-- <div ng-message="md-maxlength">The description must be less than 30 characters long.</div> -->
+    </script>
+</div>

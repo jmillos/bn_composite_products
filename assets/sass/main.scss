@@ -1,0 +1,125 @@
+// @import "breakpoint";
+@import "compass/css3";
+@import "_animations";
+
+.dashicons {
+	vertical-align: middle;
+}
+
+.metabox-components {
+	md-list {
+		.md-subheader {
+			border-bottom: 1px solid #e0e0e0;
+		}
+		md-list-item {
+			margin-top: 0 !important;
+			margin-bottom: 0 !important;
+			.md-list-item-text {
+				// height: 70px;
+				padding-top: 18px;
+				padding-bottom: 18px;
+				border-bottom: 1px solid #e0e0e0;
+				@include transition(all ease-out 0.3s);
+			}
+			&.open {
+				.md-list-item-text {
+					height: 140px;
+				}
+			}
+			> .md-button {
+				> button {
+					cursor: default;				
+				}
+			}
+		}
+	}
+}
+
+.alert {
+	font-size: 11px;
+	color: yellow;
+	line-height: normal;
+	&.alert-error {
+		color: red;
+	}
+}
+
+.bons-toolbar {
+	> .label {
+		padding-top: 12px;
+	}
+}
+
+input[type="text"] {
+	&.input-s1 {
+	    margin: 0;
+	    padding: 5px 8px 2px; 
+	    background: 0 0;
+	    font-size: 11.5px;
+	    line-height: 30px;
+	    height: 30px;
+	    color: #888;
+	    border: none;
+	    border-bottom: 2px solid rgba(0,0,0,.1);
+	    @include transition(border-color .3s ease);
+	    @include box-shadow(none);
+	    &:focus {
+		    border-color: rgba(0,0,0,.5);
+		}
+	}
+}
+
+.animate-show {
+  	@include opacity(1);
+	&.ng-hide-add {
+		&.ng-hide-add-active {
+	 		@include transition(all ease-out 0.3s);
+		}
+	}
+	&.ng-hide-remove {
+		&.ng-hide-remove-active {
+			@include transition(all ease-out 0.3s);
+		}
+	}
+	&.ng-hide {
+	  // height: 0;
+	  @include opacity(0);
+	}
+}
+
+.animation-fade {
+	/* background:white;
+	border:1px solid black;
+	padding:10px; */
+
+	&.ng-enter, &.ng-leave {
+	  // transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+	}
+
+	&.ng-enter,
+	&.ng-leave.ng-leave-active {
+	  @include animation(0.3s fadeOut ease);
+	}
+
+	&.ng-leave,
+	&.ng-enter.ng-enter-active {
+	  @include animation(0.3s fadeIn ease);
+	}
+}
+
+.animation-slide {
+	&.ng-hide-add {
+		&.ng-hide-add-active {
+	 		@include animation(0.3s slideOutDown ease);
+		}
+	}
+	&.ng-hide-remove {
+		&.ng-hide-remove-active {
+			@include animation(0.4s slideInDown ease);
+		}
+	}
+	&.ng-hide {
+	  // height: 0;
+	  // @include opacity(0);
+	}
+}

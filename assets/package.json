@@ -1,0 +1,46 @@
+{
+  "name": "wc-bonster-composite-products",
+  "config": {
+    "env": "dev2"
+  },
+  "version": "1.0.0",
+  "author": "Jefferson Garcia - jmillos.azurro@gmail.com",
+  "description": "Package for WC Bonster Composite Products",
+  "license": "ISC",
+  "scripts": {
+    "watch": "concurrently \"npm run watch-html\" \"npm run watch-js\" ",
+    "clean": "rm -rf js && mkdir js/",
+    "watch-js": "nodemon --watch src/**/*.js -x \"npm run build-js && npm run build-js-front\"",
+    "watch-html": "nodemon -e html -x \"npm run tpl-cache\"",
+    "build-js": "browserify --debug src/app.js > js/bundle.js",
+    "build-js-front": "browserify --debug src/app-front.js > js/bundle-front.js",
+    "build-js-angular2": "browserify --debug src/vendors/angular-package.js > js/angular-package.min.js",
+    "build-js-angular": "uglifyjs vendors/angular.min.js vendors/angular-sanitize.min.js vendors/angular-animate.min.js vendors/angular-messages.min.js --output js/angular-package.min.js --source-map js/angular-package.min.js.map",
+    "build-js-material": "uglifyjs vendors/angular-material.min.js vendors/angular-aria.min.js --output js/angular-material-package.min.js --source-map js/angular-material-package.min.js.map",
+    "tpl-cache": "node_modules/.bin/nghtml2js -m \"bonster.template\" -s browser -f \"templates/**/*.html\" -p ./ -o src/template.js",
+    "tpl-front-cache": "node_modules/.bin/nghtml2js -m \"bonster.template.front\" -s browser -f \"templates/front/*.html\" -p ./ -o src/template-front.js",
+    "minify": "uglifyjs js/bundle.js --screw-ie8 --compress warnings=false --mangle --output js/bundle.min.js --source-map js/bundle.min.js.map --source-map-url bundle.min.js.map --source-map-root bundle.js",
+    "hashversion": "hashmark -l 8 dist/**/{bundle.min,main}.{js,css} \"{dir}/{name}.{hash}{ext}\""
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "angular-template-cache": "^1.1.0",
+    "browserify": "latest",
+    "concurrently": "^3.1.0",
+    "hashmark": "^3.1.0",
+    "nodemon": "^1.11.0",
+    "uglifyjs": "latest",
+    "babel-core": "6.3.26",
+    "babel-loader": "6.1.0",
+    "babel-polyfill": "6.3.14",
+    "babel-preset-es2015": "6.1.18",
+    "css-loader": "~0.21.0",
+    "file-loader": "~0.8.4",
+    "raw-loader": "~0.5.1",
+    "sass-loader": "~3.0.0",
+    "script-loader": "~0.6.1",
+    "style-loader": "~0.13.0",
+    "url-loader": "~0.5.6"
+  },
+  "repository": {}
+}
